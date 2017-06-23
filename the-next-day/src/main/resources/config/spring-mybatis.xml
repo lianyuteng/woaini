@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<context:component-scan base-package="site.serviceImpl"></context:component-scan>
+	<context:property-placeholder location="classpath:config/db.properties" />
+
+	<bean id="datasource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="jdbcUrl" value="${url}"></property>
+		<property name="driverClass" value="${driver}"></property>
+		<property name="user" value="${user}"></property>
+		<property name="password" value="${password}" />
+		<property name="maxPoolSize" value="10"></property>
+	</bean>
+	<bean id="jdbcTemplement" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="datasource"></property>
+		<property name="queryTimeout" value="10000"></property>
+
+	</bean>
+
+	<bean id="sqlsessionfactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="datasource"></property>
+		<property name="mapperLocations" value="classpath:site/entity/mapper/*.xml"></property>
+		<property name="typeAliasesPackage" value="site.entity"></property>
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+
+		<property name="sqlSessionFactoryBeanName" value="sqlsessionfactory"></property>
+		<property name="basePackage" value="site.dao"></property>
+	</bean>
+
+
+
+
+</beans>

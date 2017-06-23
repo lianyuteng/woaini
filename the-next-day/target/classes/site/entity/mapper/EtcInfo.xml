@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.dao.DaoEtcInfo">
+
+
+
+	<resultMap type="EtcInfo" id="listetcinfo">
+		<id column="carid" jdbcType="VARCHAR" property="carid" />
+		<result column="etcintime" jdbcType="DATE" property="etcintime" />
+		<result column="etcouttime" jdbcType="DATE" property="etcouttime" />
+		<result column="money" jdbcType="VARCHAR" property="monry" />
+	</resultMap>
+
+
+	<select id="queryEtcAll" resultMap="listetcinfo">
+		select carid,etcintime,etcouttime,money from etcinfo
+	</select>
+	
+	<select id="verify" resultType="int" parameterType="int">
+	select count(carid) from etcinfo where carid = #{id}
+	</select>
+
+
+	<select id="queryEtcById" parameterType="int" resultType="site.entity.EtcInfo">
+		select carid,etcintime,etcouttime,money from etcinfo where carid = #{id}
+	</select>
+
+
+
+</mapper>
